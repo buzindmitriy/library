@@ -11,14 +11,14 @@ services:
       - db
       - redis
     env_file:
-      - .env
+      - ./.env
 
   nginx:
     build:
       context: ./nginx
     ports:
       - "80:80"
-    voLumes:
+    volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - static_volume:/app/staticfiles
     depends_on:
@@ -29,16 +29,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - .env
+      - ./.env
 
   redis:
     image: redis:7
     volumes:
-      - redis_data:/data env_file:
-  env_file:
-    - .env
+      - redis_data:/data
+    env_file:
+      - ./.env
 
-  volumes:
-    postgres_data:
-    static_volume:
-    redis_volume:
+# Объявление именованных томов (всегда в конце)
+volumes:
+  postgres_data:
+  redis_data:
+  static_volume:
